@@ -52,6 +52,35 @@ code {
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.871 0.006 286.286);
+
+  --color-neutral-lightest: #f2f2f2;
+  --color-neutral-lighter: #d9dada;
+  --color-neutral-light: #b4b5b5;
+  --color-neutral-base: #828484;
+  --color-neutral-dark: #505352;
+  --color-neutral-darker: #1e2221;
+  --color-neutral-darkest: #050a09;
+  --color-bright-sun-lightest: #fffaeb;
+  --color-bright-sun-lighter: #fff6d8;
+  --color-bright-sun-light: #ffe278;
+  --color-bright-sun-base: #ffd63f;
+  --color-bright-sun-dark: #ccab32;
+  --color-bright-sun-darker: #665519;
+  --color-bright-sun-darkest: #4c4012;
+  --color-yellow-orange-lightest: #fff7ec;
+  --color-yellow-orange-lighter: #ffefda;
+  --color-yellow-orange-light: #ffc97e;
+  --color-yellow-orange-base: #ffb347;
+  --color-yellow-orange-dark: #cc8f38;
+  --color-yellow-orange-darker: #66471c;
+  --color-yellow-orange-darkest: #4c3515;
+  --color-downy-lightest: #effaf6;
+  --color-downy-lighter: #e0f5ee;
+  --color-downy-light: #93dcc3;
+  --color-downy-base: #66cdaa;
+  --color-downy-dark: #51a488;
+  --color-downy-darker: #285244;
+  --color-downy-darkest: #1e3d33;
 }
 
 .dark {
@@ -126,6 +155,35 @@ code {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-neutral-lightest: var(--color-neutral-lightest);
+  --color-neutral-lighter: var(--color-neutral-lighter);
+  --color-neutral-light: var(--color-neutral-light);
+  --color-neutral-base: var(--color-neutral-base);
+  --color-neutral-dark: var(--color-neutral-dark);
+  --color-neutral-darker: var(--color-neutral-darker);
+  --color-neutral-darkest: var(--color-neutral-darkest);
+  --color-bright-sun-lightest: var(--color-bright-sun-lightest);
+  --color-bright-sun-lighter: var(--color-bright-sun-lighter);
+  --color-bright-sun-light: var(--color-bright-sun-light);
+  --color-bright-sun-base: var(--color-bright-sun-base);
+  --color-bright-sun-dark: var(--color-bright-sun-dark);
+  --color-bright-sun-darker: var(--color-bright-sun-darker);
+  --color-bright-sun-darkest: var(--color-bright-sun-darkest);
+  --color-yellow-orange-lightest: var(--color-yellow-orange-lightest);
+  --color-yellow-orange-lighter: var(--color-yellow-orange-lighter);
+  --color-yellow-orange-light: var(--color-yellow-orange-light);
+  --color-yellow-orange-base: var(--color-yellow-orange-base);
+  --color-yellow-orange-dark: var(--color-yellow-orange-dark);
+  --color-yellow-orange-darker: var(--color-yellow-orange-darker);
+  --color-yellow-orange-darkest: var(--color-yellow-orange-darkest);
+  --color-downy-lightest: var(--color-downy-lightest);
+  --color-downy-lighter: var(--color-downy-lighter);
+  --color-downy-light: var(--color-downy-light);
+  --color-downy-base: var(--color-downy-base);
+  --color-downy-dark: var(--color-downy-dark);
+  --color-downy-darker: var(--color-downy-darker);
+  --color-downy-darkest: var(--color-downy-darkest);
 }
 
 @layer base {

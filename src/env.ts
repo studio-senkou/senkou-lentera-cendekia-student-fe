@@ -14,6 +14,8 @@ export const env = createEnv({
 
   client: {
     VITE_APP_TITLE: z.string().min(1).optional(),
+    VITE_APP_API_URL: z.string().url(),
+    VITE_IMAGE_SRC: z.string().url(),
   },
 
   /**
