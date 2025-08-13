@@ -8,8 +8,8 @@ export const Route = createFileRoute('/_uauth/login/')({
 function RouteComponent() {
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <LoginForm />
+      <div className="w-full max-w-sm flex justify-center items-center">
+        <LoginForm className="p-8" />
       </div>
     </div>
   )
