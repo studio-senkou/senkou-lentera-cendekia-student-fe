@@ -51,7 +51,7 @@ export const MeetingSessionCard = ({
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-muted-foreground" />
           <span className="font-medium">Waktu:</span>
-          <span>{format(new Date(session_time), 'HH:mm a')}</span>
+          <span>{session_time}</span>
         </div>
         <div className="flex items-center gap-2">
           <Timer className="w-4 h-4 text-muted-foreground" />
