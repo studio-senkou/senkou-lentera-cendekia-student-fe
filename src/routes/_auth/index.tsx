@@ -1,15 +1,19 @@
-import { getDetailUser } from '@/lib/user'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
+import { DoorOpen } from 'lucide-react'
+import type { MeetingSession } from '@/types'
+import { getDetailUser } from '@/lib/user'
+import { getQuizHistories } from '@/lib/quiz'
 
 import userProfileImage from '@/assets/images/user-profile.jpg'
 import { getMeetingSession } from '@/lib/meeting-session'
 import { MeetingSessionCard } from '@/features/meeting-session/components/session-card'
-import type { MeetingSession } from '@/types'
 import { Button } from '@/components/ui/button'
-import { DoorOpen } from 'lucide-react'
 import { useSession } from '@/stores/use-session'
 import { Skeleton } from '@/components/ui/skeleton'
+import { QuizShortcut } from '@/features/quiz/components/quiz-shortcut'
+import { MeetingSessionsEmpty } from '@/features/meeting-session/components/meeting-sessions-empty'
+import { QuizHistories } from '@/features/quiz/components/quiz-histories'
 
 export const Route = createFileRoute('/_auth/')({
   component: RouteComponent,
@@ -45,6 +49,12 @@ function RouteComponent() {
       staleTime: 1000 * 60 * 5,
     },
   )
+
+  const { data: quizHistories, isLoading: loadingQuizHistories } = useQuery({
+    queryKey: ['quiz', 'histories'],
+    queryFn: getQuizHistories,
+    staleTime: 1000 * 60 * 5,
+  })
 
   const logout = useSession((state) => state.logout)
 
@@ -85,20 +95,32 @@ function RouteComponent() {
             <SkeletonSessionCard />
           </>
         ) : (
-          <>
+          <div className="flex flex-col gap-8">
+            <QuizShortcut />
+
+            {quizHistories && quizHistories.histories.length > 0 && (
+              <div>
+                <h2 className="mb-4 text-lg font-semibold text-neutral-darker">
+                  Riwayat Kuis
+                </h2>
+                {loadingQuizHistories ? (
+                  <>
+                    <SkeletonSessionCard />
+                    <SkeletonSessionCard />
+                  </>
+                ) : (
+                  <QuizHistories histories={quizHistories.histories} />
+                )}
+              </div>
+            )}
+
             {meetingSessions?.length > 0 &&
               meetingSessions?.map((session: MeetingSession) => (
                 <MeetingSessionCard key={session.id} {...session} />
               ))}
 
-            {meetingSessions?.length === 0 && (
-              <div className="flex flex-col items-center justify-center h-64 bg-neutral-lighter rounded-lg">
-                <p className="text-md text-neutral-darker">
-                  No meeting sessions available.
-                </p>
-              </div>
-            )}
-          </>
+            {meetingSessions?.length === 0 && <MeetingSessionsEmpty />}
+          </div>
         )}
       </div>
     </div>

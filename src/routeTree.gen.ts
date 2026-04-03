@@ -19,6 +19,7 @@ import { Route as UauthForgotPasswordIndexRouteImport } from './routes/_uauth/fo
 import { Route as AnnonResetPasswordIndexRouteImport } from './routes/_annon/reset-password/index'
 import { Route as AnnonRegisterIndexRouteImport } from './routes/_annon/register/index'
 import { Route as AuthSessionsIdRouteImport } from './routes/_auth/sessions/$id'
+import { Route as AuthQuizCodeCodeIndexRouteImport } from './routes/_auth/quiz/code/$code/index'
 
 const UauthRoute = UauthRouteImport.update({
   id: '/_uauth',
@@ -68,6 +69,11 @@ const AuthSessionsIdRoute = AuthSessionsIdRouteImport.update({
   path: '/sessions/$id',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthQuizCodeCodeIndexRoute = AuthQuizCodeCodeIndexRouteImport.update({
+  id: '/quiz/code/$code/',
+  path: '/quiz/code/$code/',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof UauthForgotPasswordIndexRoute
   '/login': typeof UauthLoginIndexRoute
   '/verify': typeof UauthVerifyIndexRoute
+  '/quiz/code/$code': typeof AuthQuizCodeCodeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthIndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof UauthForgotPasswordIndexRoute
   '/login': typeof UauthLoginIndexRoute
   '/verify': typeof UauthVerifyIndexRoute
+  '/quiz/code/$code': typeof AuthQuizCodeCodeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/_uauth/forgot-password/': typeof UauthForgotPasswordIndexRoute
   '/_uauth/login/': typeof UauthLoginIndexRoute
   '/_uauth/verify/': typeof UauthVerifyIndexRoute
+  '/_auth/quiz/code/$code/': typeof AuthQuizCodeCodeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/verify'
+    | '/quiz/code/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/verify'
+    | '/quiz/code/$code'
   id:
     | '__root__'
     | '/_annon'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/_uauth/forgot-password/'
     | '/_uauth/login/'
     | '/_uauth/verify/'
+    | '/_auth/quiz/code/$code/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -211,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSessionsIdRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/quiz/code/$code/': {
+      id: '/_auth/quiz/code/$code/'
+      path: '/quiz/code/$code'
+      fullPath: '/quiz/code/$code'
+      preLoaderRoute: typeof AuthQuizCodeCodeIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
@@ -229,11 +248,13 @@ const AnnonRouteWithChildren = AnnonRoute._addFileChildren(AnnonRouteChildren)
 interface AuthRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
   AuthSessionsIdRoute: typeof AuthSessionsIdRoute
+  AuthQuizCodeCodeIndexRoute: typeof AuthQuizCodeCodeIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthIndexRoute: AuthIndexRoute,
   AuthSessionsIdRoute: AuthSessionsIdRoute,
+  AuthQuizCodeCodeIndexRoute: AuthQuizCodeCodeIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

@@ -4,7 +4,7 @@ import { useAppForm } from '@/hooks/use-form'
 import { useNavigate } from '@tanstack/react-router'
 import z from 'zod'
 import { useState, type ComponentProps } from 'react'
-import { activateUserAccount, resetUserPassword } from '@/lib/user'
+import { resetUserPassword } from '@/lib/user'
 import { Loader2 } from 'lucide-react'
 
 interface ResetPasswordFormProps extends ComponentProps<'div'> {

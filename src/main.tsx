@@ -8,6 +8,9 @@ import * as TanStackQueryProvider from './integrations/tanstack-query/root-provi
 import { routeTree } from './routeTree.gen'
 
 import './styles.css'
+// import 'swiper/css'
+// import 'swiper/css/navigation'
+// import 'swiper/css/pagination'
 import reportWebVitals from './reportWebVitals.ts'
 
 // Create a new router instance
