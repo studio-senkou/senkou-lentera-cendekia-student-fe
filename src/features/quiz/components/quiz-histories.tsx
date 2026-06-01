@@ -1,6 +1,5 @@
+import { useRef } from 'react'
 import { Calendar, Clock, TrendingUp } from 'lucide-react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
 import type { QuizHistory } from '@/lib/quiz'
 import { cn } from '@/lib/utils'
 
@@ -9,6 +8,26 @@ interface QuizHistoriesProps {
 }
 
 export function QuizHistories({ histories }: QuizHistoriesProps) {
+  const listRef = useRef<HTMLDivElement>(null)
+
+  const scrollByCard = (direction: 'prev' | 'next') => {
+    const container = listRef.current
+
+    if (!container) {
+      return
+    }
+
+    const card = container.querySelector<HTMLElement>('[data-quiz-history-card]')
+    const cardWidth = card?.offsetWidth ?? container.clientWidth
+    const gap = 12
+    const amount = direction === 'prev' ? -(cardWidth + gap) : cardWidth + gap
+
+    container.scrollBy({
+      left: amount,
+      behavior: 'smooth',
+    })
+  }
+
   if (histories.length === 0) {
     return (
       <div className="rounded-lg border border-neutral-lighter bg-neutral-lighter/50 p-6 text-center">
@@ -19,35 +38,22 @@ export function QuizHistories({ histories }: QuizHistoriesProps) {
 
   return (
     <div className="space-y-6">
-      <Swiper
-        modules={[Navigation, Pagination]}
-        navigation={{
-          nextEl: '.swiper-button-next-custom',
-          prevEl: '.swiper-button-prev-custom',
-        }}
-        pagination={{
-          el: '.swiper-pagination-custom',
-          clickable: true,
-        }}
-        spaceBetween={12}
-        slidesPerView={1}
-        breakpoints={{
-          640: {
-            slidesPerView: 1.5,
-          },
-          1024: {
-            slidesPerView: 2,
-          },
-        }}
+      <div
+        ref={listRef}
+        className="flex gap-3 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {histories.map((history) => (
-          <SwiperSlide key={history.id}>
-            <div className="flex items-center justify-between rounded-lg border border-neutral-lighter bg-white p-4 hover:border-neutral-dark transition-colors">
+          <div
+            key={history.id}
+            data-quiz-history-card
+            className="min-w-full rounded-lg border border-neutral-lighter bg-white p-4 transition-colors hover:border-neutral-dark sm:min-w-[calc(50%-0.375rem)] lg:min-w-[calc(50%-0.375rem)]"
+          >
+            <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="mb-2 flex items-center gap-2">
                   <span
                     className={cn(
-                      'px-2 py-1 rounded text-xs font-semibold uppercase',
+                      'rounded px-2 py-1 text-xs font-semibold uppercase',
                       history.status === 'completed'
                         ? 'bg-green-100 text-green-700'
                         : history.status === 'in_progress'
@@ -88,13 +94,18 @@ export function QuizHistories({ histories }: QuizHistoriesProps) {
                 <span className="text-xs text-neutral-dark">Nilai</span>
               </div>
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </div>
 
       {/* Navigation Controls */}
       <div className="flex items-center justify-between px-4">
-        <button className="swiper-button-prev-custom flex items-center justify-center rounded-full p-2 hover:bg-neutral-lighter text-neutral-darker">
+        <button
+          type="button"
+          onClick={() => scrollByCard('prev')}
+          className="flex items-center justify-center rounded-full p-2 text-neutral-darker hover:bg-neutral-lighter"
+          aria-label="Riwayat sebelumnya"
+        >
           <svg
             className="size-6"
             fill="none"
@@ -111,9 +122,18 @@ export function QuizHistories({ histories }: QuizHistoriesProps) {
         </button>
 
         {/* Pagination Dots */}
-        <div className="swiper-pagination-custom flex items-center justify-center gap-2" />
+        <div className="flex items-center justify-center gap-2">
+          <span className="size-2 rounded-full bg-bright-sun-base" />
+          <span className="size-2 rounded-full bg-neutral-lighter" />
+          <span className="size-2 rounded-full bg-neutral-lighter" />
+        </div>
 
-        <button className="swiper-button-next-custom flex items-center justify-center rounded-full p-2 hover:bg-neutral-lighter text-neutral-darker">
+        <button
+          type="button"
+          onClick={() => scrollByCard('next')}
+          className="flex items-center justify-center rounded-full p-2 text-neutral-darker hover:bg-neutral-lighter"
+          aria-label="Riwayat berikutnya"
+        >
           <svg
             className="size-6"
             fill="none"
@@ -129,19 +149,6 @@ export function QuizHistories({ histories }: QuizHistoriesProps) {
           </svg>
         </button>
       </div>
-
-      <style>{`
-        .swiper-pagination-custom .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
-          background-color: #d1d5db;
-          opacity: 1;
-          margin: 0 4px;
-        }
-        .swiper-pagination-custom .swiper-pagination-bullet-active {
-          background-color: #fbbf24;
-        }
-      `}</style>
     </div>
   )
 }
