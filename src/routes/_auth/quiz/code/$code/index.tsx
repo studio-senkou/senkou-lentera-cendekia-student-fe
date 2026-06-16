@@ -257,6 +257,29 @@ function RouteComponent() {
     ? ((currentIndex + 1) / totalQuestions) * 100
     : 0
 
+  const deadline =
+    statusQuery.data?.attempt?.started_at && quizQuery.data?.duration_minutes
+      ? new Date(
+          new Date(statusQuery.data.attempt.started_at).getTime() +
+            quizQuery.data.duration_minutes * 60 * 1000,
+        )
+      : undefined
+
+  const handleTimeUp = async () => {
+    if (submitMutation.isPending || isCompleted) return
+
+    toast.info('Waktu habis! Kuis otomatis disubmit.')
+
+    const answers = Object.entries(answersByQuestionId).map(
+      ([questionId, optionId]) => ({
+        question_id: Number(questionId),
+        option_id: optionId,
+      }),
+    )
+
+    await submitMutation.mutateAsync(answers)
+  }
+
   return (
     <QuizQuestionScreen
       title={quizQuery.data?.title || 'Quiz'}
@@ -273,6 +296,8 @@ function RouteComponent() {
       onNextQuestion={handleNextQuestion}
       onPreviousQuestion={handlePreviousQuestion}
       onBack={() => setQuizStarted(false)}
+      deadline={deadline}
+      onTimeUp={handleTimeUp}
     />
   )
 }

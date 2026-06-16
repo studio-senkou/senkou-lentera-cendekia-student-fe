@@ -54,6 +54,7 @@ export interface QuizInfo {
   id: number
   code: string
   title?: string
+  duration_minutes?: number
 }
 
 export interface QuizHistory {

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react'
 import type { QuizNavigation, QuizQuestion } from '@/lib/quiz'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,8 @@ interface QuizQuestionScreenProps {
   onNextQuestion: () => Promise<void>
   onPreviousQuestion: () => Promise<void>
   onBack: () => void
+  deadline?: Date
+  onTimeUp?: () => void
 }
 
 export function QuizQuestionScreen({
@@ -36,8 +39,54 @@ export function QuizQuestionScreen({
   onNextQuestion,
   onPreviousQuestion,
   onBack,
+  deadline,
+  onTimeUp,
 }: QuizQuestionScreenProps) {
   const answerOptions = currentQuestion.options
+
+  const [timeLeftStr, setTimeLeftStr] = useState<string>('--:--')
+
+  useEffect(() => {
+    if (!deadline) {
+      setTimeLeftStr('--:--')
+      return
+    }
+
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime()
+      const diff = deadline.getTime() - now
+
+      if (diff <= 0) {
+        setTimeLeftStr('00:00')
+        return 0
+      }
+
+      const minutes = Math.floor(diff / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+      const mm = String(minutes).padStart(2, '0')
+      const ss = String(seconds).padStart(2, '0')
+      setTimeLeftStr(`${mm}:${ss}`)
+      return diff
+    }
+
+    const initialDiff = calculateTimeLeft()
+    if (initialDiff <= 0) {
+      onTimeUp?.()
+      return
+    }
+
+    const interval = setInterval(() => {
+      const diff = calculateTimeLeft()
+      if (diff <= 0) {
+        clearInterval(interval)
+        onTimeUp?.()
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deadline])
 
   return (
     <div className="min-h-screen bg-white px-4 py-6">
@@ -54,7 +103,7 @@ export function QuizQuestionScreen({
             {title}
           </h1>
           <div className="flex items-center justify-center rounded-full bg-bright-sun-base px-3 py-2 text-sm font-semibold text-neutral-darker">
-            2:00
+            {timeLeftStr}
           </div>
         </div>
 
