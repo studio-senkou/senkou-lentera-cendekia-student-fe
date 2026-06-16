@@ -7,6 +7,7 @@ export interface QuizOption {
 
 export interface QuizQuestion {
   id: number
+  image_url?: string
   question_text: string
   options: Array<QuizOption>
 }
