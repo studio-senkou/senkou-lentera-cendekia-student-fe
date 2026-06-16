@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react'
 import type { QuizNavigation, QuizQuestion } from '@/lib/quiz'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { getFileUrl } from '@/utils/asset'
 
 interface QuizQuestionScreenProps {
   title: string
@@ -74,6 +75,17 @@ export function QuizQuestionScreen({
         <h2 className="mb-6 text-center text-xl font-semibold leading-snug text-neutral-darker">
           {currentQuestion.question_text}
         </h2>
+
+        {/* Question Image */}
+        {currentQuestion.image_url && (
+          <div className="mb-6 flex justify-center">
+            <img
+              src={getFileUrl(currentQuestion.image_url)}
+              alt="Question"
+              className="max-h-64 w-full rounded-xl object-contain"
+            />
+          </div>
+        )}
 
         {/* Options */}
         <div className="mb-8 flex flex-col gap-3">
